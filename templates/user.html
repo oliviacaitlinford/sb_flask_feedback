@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for msg in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+<div class="container">
+    <h1>You made it!</h1>
+    <hr>
+    <p><b>Name:</b> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><b>Username:</b> {{ user.username }}</p>
+    <p><b>Email:</b> {{ user.email }}</p>
+    <a href="/logout" class="btn btn-warning" >Logout</a>
+    <br><br>
+    <form>
+        <button class="btn btn-danger" formaction="/users/{{ user.username }}/delete" formmethod="POST">Delete User</button>
+    </form>
+    <hr>
+    <h3>Feedback from User</h3>
+    <p class="lead">Click titles to edit/delete feedback.</p>
+    <a href="/users/{{ user.username }}/feedback/add" class="btn btn-secondary">Add Feedback</a>
+    <ul>
+        {% for feedback in user.feedback %}
+        <li>
+            <a href="/feedback/{{ feedback.id }}/update">{{ feedback.title }}</a>
+            <p><small>{{ feedback.content }}</small></p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %} 
